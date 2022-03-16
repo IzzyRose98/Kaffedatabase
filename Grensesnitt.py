@@ -19,11 +19,16 @@ def registrer():
 
     else:
         passord = input("Bruker er allerede registrert. Skriv inn ditt passord: ")
-        riktigPassord = cursor.execute("SELECT passord FROM Bruker WHERE epost = ?", (epost,))
-        while (passord != riktigPassord):
-            passord = input("Passordet er feil. Prøv igjen. ")
+        cursor.execute("SELECT passord FROM Bruker WHERE epost = ? AND passord = ?", (epost, passord,))
+        riktigPassord = cursor.fetchall()
 
+        while(len(riktigPassord)==0):
+            cursor.execute("SELECT passord FROM Bruker WHERE epost = ? AND passord = ?", (epost, passord,))
+            riktigPassord = cursor.fetchall()
+            passord = input("Passordet er feil. Prøv igjen. ")
+ 
         print("Du er nå logget inn! ")
+            
         
 
 
