@@ -1,14 +1,36 @@
 
+from genericpath import exists
 import sqlite3
-import uuid
 from datetime import date
+
 
 con = sqlite3.connect("Kaffe.db") 
 cursor = con.cursor()
 
+def registrer():
+    epost = input("Skriv inn eposten din")
+    cursor.execute("SELECT epost FROM Bruker WHERE epost = ?", (epost))
+    data = cursor.fetchall()
+    if (len(data) == 0):
+        passord = input("Skriv inn passord")
+        navn = input("Skriv inn fullt navn")
+        cursor.execute("INSERT INTO Bruker VALUES({epost}, {passord}, {navn})")
 
+    else:
+        passord = input("Bruker er allerede registrert. Skriv inn ditt passord.")
+        riktigPassord = cursor.execute("SELECT passord FROM Bruker WHERE epost = ?", (epost))
+        while (passord != riktigPassord):
+            passord = input("Passordet er feil. Prøv igjen. ")
+
+        print("Du er nå logget inn!")
+        
+
+
+    return epost
+
+        
+        
 menu = input("Skriv inn 'a' for å avslutte, 's' for å legge inn smaksnotat eller 'h' for å hente informasjon.\n")
-
 
 if (menu=="a"):
     print("Du valgte s, programmet avslutter nå.\n")
