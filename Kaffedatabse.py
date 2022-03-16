@@ -1,6 +1,6 @@
 import sqlite3
 
-con = sqlite3.connect("Kaffe.db")
+con = sqlite3.connect("KaffeDatabase.db")
 cursor = con.cursor()
 cursor.execute('CREATE TABLE Bruker (Epost TEXT PRIMARY KEY NOT NULL UNIQUE, Passord TEXT NOT NULL, Fullt navn TEXT NOT NULL)')
 cursor.execute('CREATE TABLE Lokasjon (LokasjonsID NUMERIC PRIMARY KEY NOT NULL UNIQUE, Land TEXT NOT NULL, Region TEXT NOT NULL)')
@@ -15,3 +15,4 @@ cursor.execute('CREATE TABLE Dyrking (id NUMERIX PRIMARY KEY NOT NULL UNIQUE, Ar
 cursor.execute('CREATE TABLE InnholdKaffeParti (id INTEGER PRIMARY KEY NOT NULL UNIQUE, Art TEXT NOT NULL, KaffepartiID NUMERIC NOT NULL)')
 con.commit()
 con.close()
+
