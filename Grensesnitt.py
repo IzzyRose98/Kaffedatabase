@@ -1,5 +1,4 @@
 
-from genericpath import exists
 import sqlite3
 from datetime import date
 
@@ -30,7 +29,6 @@ def registrer():
 
     return epost
 
-registrer()
         
 def run(brukerPK):
     menu = input("Skriv inn 'a' for å avslutte, 's' for å legge inn smaksnotat eller 'h' for å hente informasjon.\n")
