@@ -1,4 +1,11 @@
 
+import sqlite3
+
+con = sqlite3.connect("Kaffe.db") 
+cursor = con.cursor()
+
+
+
 menu = input("Skriv inn 'a' for å avslutte, 's' for å legge inn smaksnotat eller 'h' for å hente informasjon.\n")
 
 if (menu=="a"):
@@ -20,9 +27,12 @@ elif (menu=="h"):
     
     if(info=="l"):
         print("Liste over hvilke brukere som har smakt flest unike kaffer\n")
+        some = cursor.execute("SELECT * FROM Bruker")
+        print(some)
 
     elif(info=="p"):
         print("Liste over kaffer som gir mest for pengene \n")
+        
 
     elif(info=="f"):
         print("Liste over alle kaffer som er beskrevet med 'floral' \n")
