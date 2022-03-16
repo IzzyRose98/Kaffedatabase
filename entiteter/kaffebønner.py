@@ -1,18 +1,9 @@
-class Foredlingsmetode:
+class kaffebonner:
     
-    def __init__(self, name, beskrivelse, ID):
-      self.name = name
-      self.beskrivelse = beskrivelse
-      self.ID = ID
+    def __init__(self, art):
+      self.art = art
+
       
     @property
-    def name(self):
-        return self.name
-    
-    @property
-    def beskrivelse(self):
-        return self.beskrivelse
-    
-    @property
-    def ID(self):
-        return self.ID
+    def art(self):
+        return self.art
