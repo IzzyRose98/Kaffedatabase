@@ -23,17 +23,17 @@ def registrer():
         riktigPassord = cursor.fetchall()
 
         while(len(riktigPassord)==0):
+            passord = input("Passordet er feil. Prøv igjen. ")
             cursor.execute("SELECT passord FROM Bruker WHERE epost = ? AND passord = ?", (epost, passord,))
             riktigPassord = cursor.fetchall()
-            passord = input("Passordet er feil. Prøv igjen. ")
  
         print("Du er nå logget inn! ")
             
-        
-
-
     return epost
 
+def brenneriReg(navn):
+    cursor.execute()
+    return brenneriID
         
 def run(brukerPK):
     menu = input("Skriv inn 'a' for å avslutte, 's' for å legge inn smaksnotat eller 'h' for å hente informasjon.\n")
@@ -53,7 +53,8 @@ def run(brukerPK):
             poeng = input("Hvor mange poeng vil du gi kaffen? (1-10) \n")
             smaksnotat = input("Skriv inn smaksnotat her: \n")
             today = date.today()
-            cursor.execute(f"INSERT INTO Kaffesmaking VALUES({smaksnotat}, {poeng}, {today}, {brenneri}, {kaffe_navn}, {brukerPK} )")
+            cursor.execute(f"INSERT INTO Kaffesmaking VALUES(?,?,?,?,?,?)",(smaksnotat, poeng, today, brenneri, kaffe_navn, brukerPK,) )
+            con.commit()
 
 
         elif (menu=="h"):
