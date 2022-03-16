@@ -7,6 +7,7 @@ from datetime import date
 con = sqlite3.connect("Kaffe.db") 
 cursor = con.cursor()
 
+
 def registrer():
     epost = input("Skriv inn eposten din: ")
     cursor.execute("SELECT * FROM Bruker WHERE epost = ?", (epost,))
@@ -15,6 +16,7 @@ def registrer():
         passord = input("Skriv inn passord: ")
         navn = input("Skriv inn fullt navn: ")
         cursor.execute("INSERT INTO Bruker VALUES(?, ?, ?)", (epost, passord, navn,))
+        con.commit()
 
     else:
         passord = input("Bruker er allerede registrert. Skriv inn ditt passord: ")
