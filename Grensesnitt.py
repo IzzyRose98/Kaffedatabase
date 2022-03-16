@@ -1,12 +1,14 @@
 
 import sqlite3
+import uuid
+from datetime import date
 
 con = sqlite3.connect("Kaffe.db") 
 cursor = con.cursor()
 
 
-
 menu = input("Skriv inn 'a' for å avslutte, 's' for å legge inn smaksnotat eller 'h' for å hente informasjon.\n")
+
 
 if (menu=="a"):
     print("Du valgte s, programmet avslutter nå.\n")
@@ -18,6 +20,9 @@ elif (menu=="s"):
     kaffe_navn = input("Skriv inn navnet på kaffen \n")
     poeng = input("Hvor mange poeng vil du gi kaffen? (1-10) \n")
     smaksnotat = input("Skriv inn smaksnotat her: \n")
+    today = date.today()
+    cursor.execute(f"INSERT INTO Kaffesmaking VALUES({smaksnotat}, {poeng}, {today}, {brenneri}, {kaffe_navn}, epost )")
+
    
  
 elif (menu=="h"):
@@ -27,12 +32,15 @@ elif (menu=="h"):
     
     if(info=="l"):
         print("Liste over hvilke brukere som har smakt flest unike kaffer\n")
-        some = cursor.execute("SELECT * FROM Bruker")
-        print(some)
+        cursor.execute("SELECT * FROM Bruker")
+        rows = cursor.fetchall()
+        print("All rows in the table person:")
+        print(rows)
+
 
     elif(info=="p"):
         print("Liste over kaffer som gir mest for pengene \n")
-        
+
 
     elif(info=="f"):
         print("Liste over alle kaffer som er beskrevet med 'floral' \n")
