@@ -3,7 +3,7 @@ import sqlite3
 import uuid
 from datetime import date
 
-con = sqlite3.connect("Kaffe.db") 
+con = sqlite3.connect("KaffeDatabase.db") 
 cursor = con.cursor()
 
 
@@ -22,8 +22,6 @@ elif (menu=="s"):
     smaksnotat = input("Skriv inn smaksnotat her: \n")
     today = date.today()
     cursor.execute(f"INSERT INTO Kaffesmaking VALUES({smaksnotat}, {poeng}, {today}, {brenneri}, {kaffe_navn}, epost )")
-
-   
  
 elif (menu=="h"):
     print("Du valgte h for å hente ut informasjon. \n")
@@ -32,18 +30,23 @@ elif (menu=="h"):
     
     if(info=="l"):
         print("Liste over hvilke brukere som har smakt flest unike kaffer\n")
-        cursor.execute("SELECT * FROM Bruker")
+        cursor.execute("SELECT Fullt navn, COUNT(FerdigbrentKaffeID) AS 'cnt' FROM Bruker JOIN Kaffesmaking ON Bruker.epost = Kaffesmaking.epost GROUP BY Bruker.epost HAVING (SELECT MAX(FerdigbrentKaffeID))")
         rows = cursor.fetchall()
-        print("All rows in the table person:")
         print(rows)
 
 
     elif(info=="p"):
         print("Liste over kaffer som gir mest for pengene \n")
+        cursor.execute()
+        rows = cursor.fetchall()
+        print(rows)
 
 
     elif(info=="f"):
         print("Liste over alle kaffer som er beskrevet med 'floral' \n")
+        cursor.execute("SELECT Navn FROM FerdigbrentKaffe WHERE (Beskrivelse = 'floral')")
+        rows = cursor.fetchall()
+        print(rows)
 
     elif(info=="v"):
         print("Liste over kaffer fra Rwanda eller Colombia som ikke er vaskede \n")
