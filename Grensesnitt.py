@@ -2,9 +2,8 @@
 import sqlite3
 from datetime import date
 
-con = sqlite3.connect("KaffeDatabase.db") 
+con = sqlite3.connect("KaffeDatabase3.db") 
 cursor = con.cursor()
-
 
 def registrer():
     epost = input("Skriv inn eposten din: ")
@@ -30,9 +29,6 @@ def registrer():
             
     return epost
 
-def brenneriReg(navn):
-    cursor.execute()
-    return brenneriID
         
 def run(brukerPK):
     menu = input("Skriv inn 'a' for å avslutte, 's' for å legge inn smaksnotat eller 'h' for å hente informasjon.\n")
@@ -63,12 +59,12 @@ def run(brukerPK):
 
             if(info=="l"):
                 print("Liste over hvilke brukere som har smakt flest unike kaffer\n")
-                cursor.execute("SELECT Fullt navn, COUNT(FerdigbrentKaffeID) AS 'cnt' FROM Bruker JOIN Kaffesmaking ON Bruker.epost = Kaffesmaking.epost GROUP BY Bruker.epost HAVING (SELECT MAX(FerdigbrentKaffeID))")
+                cursor.execute("SELECT navn FROM (SELECT Fullt navn, COUNT(FerdigbrentKaffeID) AS 'cnt' FROM Bruker JOIN Kaffesmaking ON Bruker.epost = Kaffesmaking.epost GROUP BY Bruker.epost HAVING (SELECT MAX(FerdigbrentKaffeID)))")
                 rows = cursor.fetchall()
                 print(rows)
             elif(info=="p"):
                 print("Liste over kaffer som gir mest for pengene \n")
-                cursor.execute()
+                cursor.execute("SELECT navn FROM (SELECT SUM(Poeng) AS 'poeng', COUNT(FerdigbrentKaffe.FerdigbrentKaffeID) AS 'ids', FerdigbrentKaffe.Navn AS 'navn', FerdigbrentKaffe.Kilopris AS 'pris', FerdigbrentKaffe.FerdigbrentKaffeID AS 'id' FROM (FerdigbrentKaffe JOIN Kaffesmaking ON FerdigbrentKaffe.FerdigbrentKaffeID = Kaffesmaking.FerdigbrentKaffeID) GROUP BY FerdigbrentKaffe.FerdigbrentKaffeID) ORDER BY (pris/(poeng/ids)) ASC")
                 rows = cursor.fetchall()
                 print(rows)
 
@@ -80,6 +76,9 @@ def run(brukerPK):
 
             elif(info=="v"):
                 print("Liste over kaffer fra Rwanda eller Colombia som ikke er vaskede \n")
+                cursor.execute("SELECT FerdigbrentKaffe.Navn FROM (((FerdigbrentKaffe JOIN Kaffeparti ON FerdigbrentKaffe.KaffepartiID = Kaffeparti.KaffepartiID) JOIN Gård ON Kaffeparti.GårdsID = Gård.GårdsID) JOIN Lokasjon ON Gård.LokasjonsID = Lokasjon.LokasjonsID) JOIN Foredlingsmetode ON Kaffeparti.ForedlingsmetodeID = Foredlingsmetode.ForedlingsmetodeID WHERE (Lokasjon.Land = 'Rwanda' OR Lokasjon.Land = 'Colombia') AND (Foredlingsmetode.Beskrivelse != 'Vasket')")
+                rows = cursor.fetchall()
+                print(rows)
 
         else:
             print("Ugyldig verdi. Prøv igjen: \n")
